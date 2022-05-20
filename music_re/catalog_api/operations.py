@@ -2,11 +2,7 @@ from catalog_api.models import Tracks, Genres
 from catalog_api.serializer import TracksSerializer, GenresSerializer
 import response_code
 
-import sqlite3
-
 from logger import get_logger
-
-
 logger = get_logger()
 
 
