@@ -29,6 +29,7 @@ SECRET_KEY = 'django-insecure-4s_&rv@*wf+_-ke2-grjg3ql+j_4aoyl1p^2&f+ywxmj*h)v8$
 DEBUG = True
 
 allowed_hosts_str = 'localhost'
+print(allowed_hosts_str)
 ALLOWED_HOSTS = allowed_hosts_str.split() if allowed_hosts_str else []
 if not ALLOWED_HOSTS:
     logger.error('ALLOWED_HOSTS must be defined in os environment. It should be a space-delimited domains list')

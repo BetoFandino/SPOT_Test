@@ -10,6 +10,9 @@ except ImportError:
 
 
 def has_permission_decorator(redirect_to_login=None):
+    """
+    this decorator validates using django's default validators for session tokens
+    """
     def request_decorator(dispatch):
         @wraps(dispatch)
         def wrapper(view_set, *args, **kwargs):
@@ -25,7 +28,7 @@ def has_permission_decorator(redirect_to_login=None):
             redirect = redirect_to_login
             if redirect is None:
                 redirect = getattr(
-                    settings, 'ROLEPERMISSIONS_REDIRECT_TO_LOGIN', False)
+                    settings, 'UNAUTHENTICATED_REDIRECT_TO_LOGIN', False)
             if redirect:
                 return dj_redirect_to_login(request.get_full_path())
             raise PermissionDenied

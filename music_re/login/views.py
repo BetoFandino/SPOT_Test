@@ -2,7 +2,6 @@ from django.http import HttpResponseForbidden, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate, login as django_login
-from rest_framework.response import Response
 
 import response_code
 import json
@@ -32,5 +31,3 @@ def login(request):
         return HttpResponse(response_code.SUCCESS)
     else:
         return HttpResponseForbidden('MESSAGE_INVALID_LOGIN')
-
-

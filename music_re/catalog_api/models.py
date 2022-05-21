@@ -1,5 +1,4 @@
 from django.db import models
-#
 
 
 class Genres(models.Model):
