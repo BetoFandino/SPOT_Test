@@ -184,5 +184,5 @@ def query_by_genres(params):
         logger.error(f'Error in query_by_genres: {ex}')
         return_code = response_code.UNEXPECTED_ERROR
 
-    return return_code, list_track
+    return return_code, tracks
 

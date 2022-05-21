@@ -5,6 +5,6 @@ from user_api import views as user_views
 
 router = routers.DefaultRouter()
 router.register(r'catalog', catalog_views.CatalogViewSet, basename="catalog")
-router.register(r'create_user', user_views.UserViewSet, basename="create_user")
+router.register(r'user', user_views.UserViewSet, basename="user")
 
 urlpatterns = router.urls
