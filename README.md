@@ -216,4 +216,6 @@ http://localhost:port/api/catalog/get_by_genres/
  
  ## Provide instructions on how to run your code. (THIS IS IMPORTANT!)
 
+Once the repository is cloned, you only need to install the requirements from requirements.txt through the console with pip install -r requirements.txt (in the direction where the /SPOT_test/ file is located), once this is done you only need to run in console the command python3 manage.py runserver (at the address /SPOT_test/music_re/). No need to migrate since the database is already in the repository. It comes with a user already saved, it is username:jorge and password: jorge, with this user when you log in you will be able to have access to the other endpoints. Or you can create a user with the endpoint shown for such use and have your own user.
+
 
