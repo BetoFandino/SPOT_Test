@@ -50,4 +50,11 @@ class CatalogViewSet(viewsets.ModelViewSet):
             'RETURN_CODE': return_code
         })
 
-
+    @action(methods=['post'], url_path='get_by_genres', detail=False)
+    @has_permission_decorator()
+    def query_by_genres(self, request):
+        return_code, tracks = operations.query_by_genres(request.data)
+        return Response({
+            'RETURN_CODE': return_code,
+            'CONTENT': tracks
+        })

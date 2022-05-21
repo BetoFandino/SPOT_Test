@@ -12,10 +12,11 @@ def inject_data(data):
     """
     this function is for insert all the data from the json. The json must be the results of all the tracks.
     first save the value of the genres in a separate table and then make a query with the value of the
-    track in turn and add them.
+    track in turn and add them
     :param data: collection iterable
-    :return: return_code, code status for the function
+    :return: return_code, message status for the function
     """
+    genres_data = None
     if data is not None:
         for each in data:
             for each2 in each['genres']:
@@ -56,7 +57,7 @@ def query_by_name(params=dict):
     This function takes the search parameter and through the django ORM query the object is obtained, and once
     serialized by query_organizer, returning a success code and the track information
     :param params: the search parameter must be a dictionary, in this case it is searched by the name of the song
-    :return: return_code: the endpoint status code
+    :return: return_code: the endpoint status message
     :return: track: the track information in json format
     """
     track = None
@@ -77,7 +78,7 @@ def top_50():
     """
     this function performs a search of all the tracks and takes 50, since there is no indicative value of the
      most favorite, the 50 are taken in the order they were entered in the table
-    :return: return_coe: the endpoint status code
+    :return: return_coe: the endpoint status message
     :return: data_track: a list with all the information of the 50 tracks in json format
     """
     data_track = []
@@ -115,7 +116,7 @@ def delete_track(params=dict):
     the function looks up the ID parameter of the track since it is one of the few unique values
     that cannot be repeated. With this value the query of the object is made, and it is eliminated from the table
     :param params: a json, with the ID of the track to delete
-    :return: return_coe: the endpoint status code
+    :return: return_coe: the endpoint status message
     """
     try:
         track_delete = Tracks.objects.get(id=params['id'])
@@ -133,7 +134,7 @@ def add_new_track(data=dict):
     the function takes the data and adds the corresponding values
     to the table, makes a query of the genres object and adds the values
     :param data: a json, with the data of the new track
-    :return: return_coe: the endpoint status code
+    :return: return_coe: the endpoint status message
     """
     try:
         tracks = Tracks(
@@ -161,10 +162,27 @@ def add_new_track(data=dict):
 
 def query_by_genres(params):
     """
-
-    :param params:
-    :return:
+    this function takes the parameter that in this case is the musical genre and through SQL
+     makes a query to bring all the tracks with that genre
+    :param params: is a dictionary, which takes the name of the genre of the tracks to bring
+    :return: return_code: the endpoint status message
+    :return: track: tracks information in tuple format
     """
-    conn = sqlite3.connect('db.sqlite3')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM catalog_api_tracks WHERE name LIKE ?;", "%{}%".format(params['name_genres']))
+    tracks = None
+    dict_track = {}
+    list_track = []
+    try:
+        conn = sqlite3.connect('db.sqlite3')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM catalog_api_genres WHERE name LIKE ?", (params['name_genres'],))
+        genres = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM catalog_api_tracks WHERE genres_id LIKE ?", (genres[0],))
+        tracks = cursor.fetchall()
+        return_code = response_code.SUCCESS
+    except Exception as ex:
+        logger.error(f'Error in query_by_genres: {ex}')
+        return_code = response_code.UNEXPECTED_ERROR
+
+    return return_code, list_track
+
